@@ -4,7 +4,7 @@ import './InputDato.css'
 function InputDato( props ){//Le pasamos el [value, setValue()] que corresponda
 
     return(
-        <input id={props.id} type="number" value={props.value} onChange={(e) => setValue(e.target.value)} />
+        <input id={props.id} type="number" value={props.value} onChange={(e) => props.setValue(e.target.value)} />
     );
 }
 

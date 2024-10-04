@@ -5,18 +5,21 @@ import InputDato from "../../atoms/InputDato/Inputdato";
 function InputCoordenadas( props ){//Este s para poder ingresar los datos de la coordenada en un input por cada x, y z
     return(
         <div className="fila">
+            <label htmlFor="">Coordenada en x</label>
             <InputDato 
                 id = {props.idX}
                 value = {props.valueX}
-                setvalueX = {props.setValueX} />
+                setValue = {props.setValueX} />
+            <label htmlFor="">Coordenada en Y</label>
             <InputDato 
                 id = {props.idY}
                 value = {props.valueY}
-                setvalue = {props.setValueY} />
+                setValue = {props.setValueY} />
+            <label htmlFor="">Coordenada en Z</label>
             <InputDato 
                 id = {props.idZ}
                 value = {props.valueZ}
-                setvalue = {props.setValueZ} />
+                setValue = {props.setValueZ} />
         </div> 
     );
 }
