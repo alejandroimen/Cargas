@@ -3,8 +3,8 @@ import './Options.css'
 
 function Options( props ){//se le pasa el [value, setvalue()] y una lista con la sopciones para despegar en el select
     const options = props.list.map((optn, index) => (
-        <option key={optn} value={index}>
-            {optn}
+        <option key={optn} value={optn.val}>
+            {optn.nom}
         </option>
     ))
 

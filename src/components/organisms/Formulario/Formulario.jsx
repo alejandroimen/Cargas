@@ -3,6 +3,7 @@ import './Formulario.css'
 import InputCoordenadas from "../../molecules/InputCoordenadas/InputCoordenadas";
 import InputSelect from "../../molecules/InputSelect/InputSelect";
 import BotonCalc from "../../atoms/BotonCalc/BotonCalc";
+import Resultado from "../../atoms/Resultado/Resultado";
 
 function Formulario( props ){//Le pasamos el [value, setValue()] que corresponda
     const [originX, setOriginX] = useState(0)
@@ -33,10 +34,63 @@ function Formulario( props ){//Le pasamos el [value, setValue()] que corresponda
     const [y5, setY5] = useState(0)
     const [z5, setZ5] = useState(0)
     const [unidad5, setUnidad5] = useState(1)
-    const potencias = ['deci', 'centi', 'micro', 'nano']
+    const [result, setResult] = useState(0)
+    const potencias = [
+        {nom: 'deci', val: 0.1},
+        {nom: 'centi', val: 0.01},
+        {nom: 'mili', val: 0.001},
+        {nom: 'micro', val: 0.000001},
+        {nom: 'nano', val: 0.000000001}
+    ]
+    const unoEntre4piPorEpsilonCero = 8987742437
     
+    const calcular = () => {
+        const valorCarga1 = parseFloat(carga1) * parseFloat(unidad1)
+        const erre1aLaTresMedios = (x1**2+y1**2+z1**2)**(3/2)
+        const q1EntreR = parseFloat(valorCarga1)/parseFloat(erre1aLaTresMedios)
+        const vector1 = [parseFloat(q1EntreR)*parseFloat(x1), parseFloat(q1EntreR)*parseFloat(y1),parseFloat(q1EntreR)*parseFloat(z1)]
+
+        const valorCarga2 = parseFloat(carga2) * parseFloat(unidad2)
+        const erre2aLaTresMedios = (x2**2+y2**2+z2**2)**(3/2)
+        const q2EntreR = parseFloat(valorCarga2)/parseFloat(erre2aLaTresMedios)
+        const vector2 = [parseFloat(q2EntreR)*parseFloat(x2), parseFloat(q2EntreR)*parseFloat(y2),parseFloat(q2EntreR)*parseFloat(z2)]
+
+
+        const valorCarga3 = parseFloat(carga3) * parseFloat(unidad3)
+        const erre3aLaTresMedios = (x3**2+y3**2+z3**2)**(3/2)
+        const q3EntreR = parseFloat(valorCarga3)/parseFloat(erre3aLaTresMedios)
+        const vector3 = [parseFloat(q3EntreR)*parseFloat(x3), parseFloat(q3EntreR)*parseFloat(y3),parseFloat(q3EntreR)*parseFloat(z3)]
+
+        const valorCarga4 = parseFloat(carga4) * parseFloat(unidad4)
+        const erre4aLaTresMedios = (x4**2+y4**2+z4**2)**(3/2)
+        const q4EntreR = parseFloat(valorCarga4)/parseFloat(erre4aLaTresMedios)
+        const vector4 = [parseFloat(q4EntreR)*parseFloat(x4), parseFloat(q4EntreR)*parseFloat(y4),parseFloat(q4EntreR)*parseFloat(z4)]
+
+        const valorCarga5 = (parseFloat(carga5) * parseFloat(unidad5))
+        const erre5aLaTresMedios = (x5**2+y5**2+z5**2)**(3/2)
+        const q5EntreR = (parseFloat(valorCarga5)/parseFloat(erre5aLaTresMedios))
+        const vector5 = [(parseFloat(q5EntreR)*parseFloat(x5)), (parseFloat(q5EntreR)*parseFloat(y5)), ((parseFloat(q5EntreR)*parseFloat(z5)))]
+
+        const vectorSemiFinal = [
+            (parseFloat(vector1[0])+parseFloat(vector2[0])+parseFloat(vector3[0])+parseFloat(vector4[0])+parseFloat(vector5[0])),
+            (parseFloat(vector1[1])+parseFloat(vector2[1])+parseFloat(vector3[1])+parseFloat(vector4[1])+parseFloat(vector5[1])),
+            (parseFloat(vector1[2])+parseFloat(vector2[2])+parseFloat(vector3[2])+parseFloat(vector4[2])+parseFloat(vector5[2])),
+            (parseFloat(vector1[3])+parseFloat(vector2[3])+parseFloat(vector3[3])+parseFloat(vector4[3])+parseFloat(vector5[3])),
+            (parseFloat(vector1[4])+parseFloat(vector2[4])+parseFloat(vector3[4])+parseFloat(vector4[4])+parseFloat(vector5[4]))
+        ]
+        const vectorFinal = [
+            (parseFloat(unoEntre4piPorEpsilonCero)*vectorSemiFinal[0]),
+            (parseFloat(unoEntre4piPorEpsilonCero)*vectorSemiFinal[1]),
+            (parseFloat(unoEntre4piPorEpsilonCero)*vectorSemiFinal[2]),
+            (parseFloat(unoEntre4piPorEpsilonCero)*vectorSemiFinal[3]),
+            (parseFloat(unoEntre4piPorEpsilonCero)*vectorSemiFinal[4]),
+        ]
+        console.log('v1', vector1,'v2', vector2, 'v3', vector3, 'v4', vector4, 'v5', vector5);
+        
+        setResult(vectorFinal[0] + ', ' + vectorFinal[1] + ', ' + vectorFinal[2]+ ', ' + vectorFinal[3]+ ', ' + vectorFinal[4])
+    }
     
-    return(
+    return(       
         <form action="">
             <label htmlFor="">Punto a analizar</label>
             <InputCoordenadas
@@ -88,6 +142,10 @@ function Formulario( props ){//Le pasamos el [value, setValue()] que corresponda
                     idY={"y5"} valueY = {y5} setValueY = {setY5}
                     idZ={"z5"} valueZ = {z5} setValueZ = {setZ5} />
             </div>
+
+            <BotonCalc text = {"Calcular campo electrico"} funcion = {calcular} />
+            <Resultado contenido = {result}  />
+
         </form>     
     );
 }
